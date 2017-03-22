@@ -8,15 +8,15 @@ import android.view.ViewGroup;
 
 import fr.test.ubi.td_youtube.R;
 import fr.test.ubi.td_youtube.interfaces.OnVideoSelectedListener;
-import fr.test.ubi.td_youtube.models.Items;
+import fr.test.ubi.td_youtube.models.ItemsVideo;
 import fr.test.ubi.td_youtube.viewholders.ItemsViewHolder;
 
 public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsViewHolder>{
-    private final Items items;
+    private final ItemsVideo itemsVideo;
     private OnVideoSelectedListener onVideoSelectedListener;
 
-    public ItemsRecyclerAdapter(Items items) {
-        this.items = items;
+    public ItemsRecyclerAdapter(ItemsVideo itemsVideo) {
+        this.itemsVideo = itemsVideo;
     }
 
     @Override
@@ -28,12 +28,12 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsViewHolder>{
     @Override
     public void onBindViewHolder(ItemsViewHolder holder, int position) {
         holder.setOnVideoSelectedListener(onVideoSelectedListener);
-        holder.bind(items.getItems().get(position));
+        holder.bind(itemsVideo.getItems().get(position));
     }
 
     @Override
     public int getItemCount() {
-        return items != null ? items.getItems().size() : 0;
+        return itemsVideo != null ? itemsVideo.getItems().size() : 0;
     }
 
     public void setOnVideoSelectedListener(OnVideoSelectedListener onVideoSelectedListener) {

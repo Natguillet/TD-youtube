@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Items{
+public class ItemsVideo {
     @SerializedName("items")
     private List<Video> items;
 

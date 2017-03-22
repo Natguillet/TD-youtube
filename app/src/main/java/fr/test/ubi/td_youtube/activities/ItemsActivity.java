@@ -19,7 +19,7 @@ import fr.test.ubi.td_youtube.Constants;
 import fr.test.ubi.td_youtube.R;
 import fr.test.ubi.td_youtube.adapters.ItemsRecyclerAdapter;
 import fr.test.ubi.td_youtube.interfaces.OnVideoSelectedListener;
-import fr.test.ubi.td_youtube.models.Items;
+import fr.test.ubi.td_youtube.models.ItemsVideo;
 import fr.test.ubi.td_youtube.models.Video;
 
 public class ItemsActivity extends AppCompatActivity implements OnVideoSelectedListener {
@@ -33,7 +33,7 @@ public class ItemsActivity extends AppCompatActivity implements OnVideoSelectedL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_items);
         searchButton = (Button) findViewById(R.id.buttonSearch);
         searchText = (EditText) findViewById(R.id.search);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -53,9 +53,9 @@ public class ItemsActivity extends AppCompatActivity implements OnVideoSelectedL
             public void onResponse(String response) {
                 //parse data from webservice to get Contracts as Java object
 
-                Items items = new Gson().fromJson(response, Items.class);
+                ItemsVideo itemsVideo = new Gson().fromJson(response, ItemsVideo.class);
 
-                setAdapter(items);
+                setAdapter(itemsVideo);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -65,14 +65,15 @@ public class ItemsActivity extends AppCompatActivity implements OnVideoSelectedL
         });
         Volley.newRequestQueue(this).add(objectsRequest);
     }
-    private void setAdapter(Items items){
-        ItemsRecyclerAdapter adapter = new ItemsRecyclerAdapter(items);
+    private void setAdapter(ItemsVideo itemsVideo){
+        ItemsRecyclerAdapter adapter = new ItemsRecyclerAdapter(itemsVideo);
         adapter.setOnVideoSelectedListener(this);
         recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onVideoSelected(Video video) {
-
+        System.out.println(video.getId().getVideoId());
+        DetailsActivity.start(this, video.getId().getVideoId());
     }
 }
