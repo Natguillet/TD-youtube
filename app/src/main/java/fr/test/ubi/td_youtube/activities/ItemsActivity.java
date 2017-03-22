@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -23,18 +26,29 @@ public class ItemsActivity extends AppCompatActivity implements OnVideoSelectedL
 
     private static final String SEARCH_URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=";
     private RecyclerView recyclerView;
+    private EditText searchText;
+    private Button searchButton;
+    private String keyWord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        searchButton = (Button) findViewById(R.id.buttonSearch);
+        searchText = (EditText) findViewById(R.id.search);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        getVideos();
+        searchButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                keyWord = searchText.getText().toString();
+                getVideos();
+            }
+        });
     }
 
     private void getVideos(){
-        final StringRequest objectsRequest = new StringRequest(SEARCH_URL+ "hello" + "&key=" + Constants.API_KEY, new Response.Listener<String>() {
+        final StringRequest objectsRequest = new StringRequest(SEARCH_URL+ keyWord + "&key=" + Constants.API_KEY, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //parse data from webservice to get Contracts as Java object
