@@ -61,6 +61,6 @@ public class DetailsActivity extends AppCompatActivity {
                 Log.e("Details", "Error");
             }
         });
-        Volley.newRequestQueue(this).add(objectsRequest);
+        Volley.newRequestQueue(this).add(objectsRequest); 
     }
 }
