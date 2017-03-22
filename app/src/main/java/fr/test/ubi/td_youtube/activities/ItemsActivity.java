@@ -2,6 +2,7 @@ package fr.test.ubi.td_youtube.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
@@ -13,9 +14,12 @@ import com.google.gson.Gson;
 
 import fr.test.ubi.td_youtube.Constants;
 import fr.test.ubi.td_youtube.R;
+import fr.test.ubi.td_youtube.adapters.ItemsRecyclerAdapter;
+import fr.test.ubi.td_youtube.interfaces.OnVideoSelectedListener;
 import fr.test.ubi.td_youtube.models.Items;
+import fr.test.ubi.td_youtube.models.Video;
 
-public class MainActivity extends AppCompatActivity {
+public class ItemsActivity extends AppCompatActivity implements OnVideoSelectedListener {
 
     private static final String SEARCH_URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=";
     private RecyclerView recyclerView;
@@ -24,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         getVideos();
     }
 
@@ -46,8 +52,13 @@ public class MainActivity extends AppCompatActivity {
         Volley.newRequestQueue(this).add(objectsRequest);
     }
     private void setAdapter(Items items){
-        ObjectRecyclerAdapter adapter = new ObjectRecyclerAdapter(objects); //Mettre la liste des objets
-        adapter.setOnContractSelectedListener(this);
+        ItemsRecyclerAdapter adapter = new ItemsRecyclerAdapter(items);
+        adapter.setOnVideoSelectedListener(this);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onVideoSelected(Video video) {
+
     }
 }
