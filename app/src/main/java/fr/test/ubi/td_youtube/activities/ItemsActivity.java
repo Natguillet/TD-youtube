@@ -1,12 +1,14 @@
 package fr.test.ubi.td_youtube.activities;
 
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,32 +30,34 @@ public class ItemsActivity extends AppCompatActivity implements OnVideoSelectedL
 
     private static final String SEARCH_URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=14&q=";
     private RecyclerView recyclerView;
-    private EditText searchText;
     private Button searchButton;
     private String keyWord;
     private SharedPreferences sharedPref;
     private AutoCompleteTextView autoText;
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items);
         searchButton = (Button) findViewById(R.id.buttonSearch);
-        searchText = (EditText) findViewById(R.id.search);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        autoText = (AutoCompleteTextView) findViewById(R.id.autocomplete_text);
+        autoText = (AutoCompleteTextView) findViewById(R.id.search);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        autoText.setAdapter(adapter);
         sharedPref = this.getPreferences(this.MODE_PRIVATE);
-        String preference = sharedPref.getString("New","");
-        searchText.setText(preference);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LoadPreferences();
         searchButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                keyWord = searchText.getText().toString();
+                keyWord = autoText.getText().toString();
                 keyWord = keyWord.replaceAll(" ","+");
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString("New",keyWord);
-                editor.commit();
+
+                adapter.add(keyWord);
+                adapter.notifyDataSetChanged();
+                SavePreferences("LISTS",keyWord);
+
                 getVideos();
             }
         });
@@ -88,4 +92,21 @@ public class ItemsActivity extends AppCompatActivity implements OnVideoSelectedL
         System.out.println(video.getId().getVideoId());
         DetailsActivity.start(this, video.getId().getVideoId());
     }
+
+    protected void SavePreferences(String key, String value) {
+        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = data.edit();
+        editor.putString(key, value);
+        editor.commit();
+
+
+    }
+    protected void LoadPreferences(){
+        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
+        String dataSet = data.getString("LISTS", "None Available");
+
+        adapter.add(dataSet);
+        adapter.notifyDataSetChanged();
+    }
+
 }

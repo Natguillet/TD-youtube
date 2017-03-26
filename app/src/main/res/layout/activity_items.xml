@@ -9,17 +9,13 @@
     tools:context="fr.test.ubi.td_youtube.activities.ItemsActivity">
 
     <AutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/autocomplete_text"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-    <EditText
         android:id="@+id/search"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:textSize="20sp"
         android:hint="Search here"
-        android:layout_toLeftOf="@+id/buttonSearch"/>
+        android:layout_toLeftOf="@+id/buttonSearch" />
 
     <Button
         android:layout_width="100dp"
