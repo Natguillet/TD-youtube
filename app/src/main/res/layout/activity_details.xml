@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
@@ -8,6 +11,13 @@
     android:paddingRight="16dp"
     tools:context="fr.test.ubi.td_youtube.activities.ItemsActivity">
 
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/youtube_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"/>
 
     <TextView
         android:id="@+id/description"
@@ -16,6 +26,8 @@
         android:paddingLeft="10dp"
         android:paddingStart="10dp"
         android:textSize="16sp"
+        android:layout_below="@+id/youtube_view"
         android:text="Bouh"/>
 
 </RelativeLayout>
+</ScrollView>

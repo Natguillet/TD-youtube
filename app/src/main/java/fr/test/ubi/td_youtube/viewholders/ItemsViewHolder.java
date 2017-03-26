@@ -17,15 +17,18 @@ public class ItemsViewHolder extends RecyclerView.ViewHolder{
     private TextView title;
     private TextView channelTitle;
     private ImageView miniature;
+    private TextView date;
     private OnVideoSelectedListener onVideoSelectedListener;
 
     public ItemsViewHolder(View itemView) {
         super(itemView);
+        date = (TextView) itemView.findViewById(R.id.date);
         miniature = (ImageView) itemView.findViewById(R.id.imageView);
         title = (TextView) itemView.findViewById(R.id.title);
         channelTitle = (TextView) itemView.findViewById(R.id.channelTitle);
     }
     public void bind(final Video video){
+        date.setText(video.getSnippet().getPublishedAt());
         title.setText(video.getSnippet().getTitle());
         channelTitle.setText(video.getSnippet().getChannelTitle());
         Picasso.with(itemView.getContext()).load(video.getSnippet().getThumbnails().getDefaultMiniature().getUrl()).into(miniature);

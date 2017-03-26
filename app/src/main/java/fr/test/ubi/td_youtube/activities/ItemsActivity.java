@@ -24,7 +24,7 @@ import fr.test.ubi.td_youtube.models.Video;
 
 public class ItemsActivity extends AppCompatActivity implements OnVideoSelectedListener {
 
-    private static final String SEARCH_URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=";
+    private static final String SEARCH_URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=14&q=";
     private RecyclerView recyclerView;
     private EditText searchText;
     private Button searchButton;
@@ -42,6 +42,7 @@ public class ItemsActivity extends AppCompatActivity implements OnVideoSelectedL
             @Override
             public void onClick(View v){
                 keyWord = searchText.getText().toString();
+                keyWord = keyWord.replaceAll(" ","+");
                 getVideos();
             }
         });
