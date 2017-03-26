@@ -1,11 +1,13 @@
 package fr.test.ubi.td_youtube.activities;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -29,6 +31,8 @@ public class ItemsActivity extends AppCompatActivity implements OnVideoSelectedL
     private EditText searchText;
     private Button searchButton;
     private String keyWord;
+    private SharedPreferences sharedPref;
+    private AutoCompleteTextView autoText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +41,19 @@ public class ItemsActivity extends AppCompatActivity implements OnVideoSelectedL
         searchButton = (Button) findViewById(R.id.buttonSearch);
         searchText = (EditText) findViewById(R.id.search);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        autoText = (AutoCompleteTextView) findViewById(R.id.autocomplete_text);
+        sharedPref = this.getPreferences(this.MODE_PRIVATE);
+        String preference = sharedPref.getString("New","");
+        searchText.setText(preference);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         searchButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 keyWord = searchText.getText().toString();
                 keyWord = keyWord.replaceAll(" ","+");
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("New",keyWord);
+                editor.commit();
                 getVideos();
             }
         });
